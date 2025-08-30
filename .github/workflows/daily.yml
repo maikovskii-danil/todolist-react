@@ -32,7 +32,7 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           SUMMARY=$(jq -r '
-            "todolist-react" +
+            "todolist-react \n" +
             "📦 *npm audit summary* \n" +
             "*Info:* " + (.metadata.vulnerabilities.info|tostring) + "\n" +
             "*Low:* " + (.metadata.vulnerabilities.low|tostring) + "\n" +
