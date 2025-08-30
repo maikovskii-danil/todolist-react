@@ -2,8 +2,6 @@
 
 > A description
 
-🔗 [Live on Vercel](https://applications-management-system-vue3.vercel.app/) (not working)
-
 ![Light theme](./screenshots/light.png) (not working)
 ![Dark theme](./screenshots/dark.png) (not working)
 
@@ -22,7 +20,6 @@
 ## ⚙️ Features
 
 - Manual Vite setup
-- Custom [UI framework](https://www.npmjs.com/package/@maikovskii-danil/ui-framework-vue)
 - Manually configured ESLint + Prettier
 
 ## 🛠️ Environment
