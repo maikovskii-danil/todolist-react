@@ -2,9 +2,16 @@ import configJS from '@maikovskii-danil/eslint-config-js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import pluginReact from 'eslint-plugin-react';
 import tseslint from 'typescript-eslint';
+import globals from 'globals';
 
 export default defineConfig([
-  globalIgnores(['dist', 'eslint.config.js', 'playwright.config.ts', 'tests', 'tests-examples']),
+  globalIgnores([
+    'dist',
+    'eslint.config.js',
+    'playwright.config.ts',
+    'tests',
+    'tests-examples',
+  ]),
   {
     files: ['**/*.{js,ts,jsx,tsx}'],
     extends: [
@@ -22,7 +29,15 @@ export default defineConfig([
   },
   {
     files: ['**/*.{tsx,jsx}'],
-    extends: [pluginReact.configs['flat/recommended']],
-    languageOptions: { parserOptions: { parser: tseslint.parser } },
+    ...pluginReact.configs.flat.recommended,
+    ...pluginReact.configs.flat['jsx-runtime'],
+    languageOptions: {
+      ...pluginReact.configs.flat.recommended.languageOptions,
+      ...pluginReact.configs.flat['jsx-runtime'].languageOptions,
+      globals: {
+        ...globals.serviceworker,
+        ...globals.browser,
+      },
+    },
   },
 ]);
