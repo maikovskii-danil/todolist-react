@@ -1,0 +1,47 @@
+name: Daily
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  telegram-audit:
+    name: Telegram Audit
+    runs-on: ubuntu-latest
+    outputs:
+      node-version: '22.17.0'
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.17.0'
+      - name: Clear npm cache
+        run: npm cache clean --force
+      - name: Install specific npm version
+        run: npm install --audit false --fund false -g npm@11.4.2
+
+      - uses: actions/checkout@v4
+
+      - name: Run npm audit and save report
+        run: |
+          npm audit --json --audit-level none > audit.json
+
+      - name: Send to Telegram
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          SUMMARY=$(jq -r '
+            "todolist-react" +
+            "📦 *npm audit summary* \n" +
+            "*Info:* " + (.metadata.vulnerabilities.info|tostring) + "\n" +
+            "*Low:* " + (.metadata.vulnerabilities.low|tostring) + "\n" +
+            "*Moderate:* " + (.metadata.vulnerabilities.moderate|tostring) + "\n" +
+            "*High:* " + (.metadata.vulnerabilities.high|tostring) + "\n" +
+            "*Critical:* " + (.metadata.vulnerabilities.critical|tostring)
+          ' audit.json)
+
+          curl -s -X POST https://api.telegram.org/bot$BOT_TOKEN/sendMessage \
+            -d chat_id="$CHAT_ID" \
+            -d parse_mode="Markdown" \
+            --data-urlencode text="$SUMMARY"

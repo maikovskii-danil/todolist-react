@@ -1,0 +1,94 @@
+{
+  "name": "todolist-react",
+  "version": "1.0.0+no-semver",
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 80,
+    "tabWidth": 2,
+    "useTabs": false,
+    "experimentalTernaries": true,
+    "experimentalOperatorPosition": "start",
+    "quoteProps": "consistent",
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "objectWrap": "preserve",
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "singleAttributePerLine": true
+  },
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "husky",
+    "docker:dev": "docker build -f Dockerfile.dev -t react-dev-app .",
+    "prestart": "npm clean-install --ignore-scripts --fund false; npx kill-port 5173",
+    "start": "vite --port 5173",
+    "prebuild": "npm clean-install --ignore-scripts --fund false",
+    "build": "npm run buildOnly",
+    "buildOnly": "vite build",
+    "prebuild:analyze": "npm clean-install --ignore-scripts --fund false",
+    "build:analyze": "vite build --mode analyze",
+    "format": "prettier --write --ignore-unknown src/",
+    "prettierCheck": "prettier --check --ignore-unknown src/",
+    "prelint": "npm clean-install --ignore-scripts --fund false --audit false",
+    "lint": "npm run lintOnly",
+    "lintOnly": "eslint --config ./eslint.config.js",
+    "postlintOnly": "echo 'lint is done'",
+    "typecheck": "tsc --noEmit",
+    "posttypecheck": "echo 'typecheck is done'"
+  },
+  "lint-staged": {
+    "*.{ts,js,vue}": [
+      "npm run lintOnly",
+      "npm run prettierCheck"
+    ]
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.5",
+    "currency.js": "^2.0.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^4.1.11",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@maikovskii-danil/eslint-config-js": "^4.0.2",
+    "@playwright/test": "^1.54.2",
+    "@tailwindcss/vite": "^4.1.11",
+    "@types/node": "^22.16.5",
+    "@vitejs/plugin-react": "^5.0.2",
+    "eslint": "9.29.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "3.5.3",
+    "rollup-plugin-visualizer": "^6.0.3",
+    "typescript": "~5.8.0",
+    "typescript-eslint": "8.34.0",
+    "vite": "^6.3.5"
+  },
+  "engines": {
+    "node": "^22.17.0",
+    "npm": "^11.4.2"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "onFail": "error"
+    }
+  }
+}

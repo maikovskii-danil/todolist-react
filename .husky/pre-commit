@@ -1,0 +1,4 @@
+npm clean-install --fund false --audit false
+npx lint-staged
+npm run typecheck
+npm audit
