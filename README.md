@@ -15,7 +15,6 @@
 - Vite
 - Tailwind CSS (dark/light themes)
 - ESLint, Prettier
-- GitHub Actions + Vercel
 
 ## ⚙️ Features
 
